@@ -4,6 +4,8 @@ const cors = require("cors");
 const bcrypt = require("bcrypt-nodejs");
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
+const profile = require("./controllers/profile");
+const image = require("./controllers/image");
 
 const knex = require("knex")({
   client: "pg",
@@ -32,31 +34,11 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/profile/:id", (req, res) => {
-  const { id } = req.params;
-  knex
-    .select("*")
-    .from("users")
-    .where({ id: id })
-    .then((user) => {
-      if (user.length) {
-        res.json(user[0]);
-      } else {
-        res.status(400).json("not found such user");
-      }
-    })
-    .catch((err) => res.status(400).json("error getting such user"));
+  profile.handleProfileGet(req, res, knex);
 });
 
 app.put("/image", (req, res) => {
-  const { id } = req.body;
-  knex("users")
-    .where("id", "=", id)
-    .increment("entries", 1)
-    .returning("entries")
-    .then((entry) => {
-      res.json(entry[0]);
-    })
-    .catch((err) => res.status(400).json("unable to count entry"));
+  image.handleImageCount(req, res, knex);
 });
 
 app.listen(3001, () => {
