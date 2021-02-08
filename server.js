@@ -45,6 +45,6 @@ app.post("/imageurl", (req, res) => {
   image.handleApiCall(req, res, knex);
 });
 
-app.listen(3001, () => {
-  console.log("I'm running well on 3001");
+app.listen(process.env.PORT || 3001, () => {
+  console.log(`I'm running well on ${process.env.PORT}`);
 });
