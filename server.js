@@ -41,6 +41,10 @@ app.put("/image", (req, res) => {
   image.handleImageCount(req, res, knex);
 });
 
+app.post("/imageurl", (req, res) => {
+  image.handleApiCall(req, res, knex);
+});
+
 app.listen(3001, () => {
   console.log("I'm running well on 3001");
 });
